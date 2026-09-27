@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KopDes - Katalog Produk</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/auth.js" defer></script>
+  <script src="js/catalog.js" defer></script>
+  <script src="js/cart-modal.js" defer></script>
+</head>
+
+<body>
+  <header class="navbar">
+    <a href="index.html" class="brand">Kop<span>Des</span>.</a>
+
+    <div class="nav-space"></div>
+
+    <div class="nav-actions">
+      <div class="cart-nav">
+        <button id="cart-button" class="cart-button" type="button">
+          Keranjang
+          <span id="cart-badge">0</span>
+        </button>
+
+        <span id="cart-total" class="cart-total">$0.00</span>
+      </div>
+
+      <p id="greeting" class="greeting">Halo</p>
+      <button id="logout-btn" class="logout-button" type="button">Keluar</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">00 / KOPDES IJO</p>
+        <h1>Cari barang,<br>nggak pakai ribet.</h1>
+        <p class="hero-description">Pilih dari berbagai kategori, cari produknya, lalu atur sesuai harga atau rating.</p>
+        <a href="#catalog" class="primary-button">Lihat katalog <span>↗</span></a>
+      </div>
+    </section>
+
+    <section id="catalog" class="catalog-section">
+      <div class="catalog-heading">
+        <div>
+          <p class="eyebrow light-eyebrow">01 / KATALOG</p>
+          <h2>Mau cari apa hari ini?</h2>
+          <p class="catalog-description">Cari produk, pilih kategori, atau urutkan sesuai kebutuhanmu.</p>
+        </div>
+
+        <p id="product-counter" class="product-counter"></p>
+      </div>
+
+      <div class="catalog-tools">
+        <div class="catalog-search">
+          <span class="catalog-search-symbol">○</span>
+          <input type="text" id="search-input" placeholder="Cari nama produk atau kategori...">
+        </div>
+
+        <div class="product-control">
+          <div class="filter-group">
+            <label for="category-filter">Kategori</label>
+
+            <select id="category-filter">
+              <option value="">Semua kategori</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="sort-filter">Urutkan</label>
+
+            <select id="sort-filter">
+              <option value="">Rekomendasi</option>
+              <option value="price-asc">Harga termurah</option>
+              <option value="price-desc">Harga termahal</option>
+              <option value="rating-desc">Rating tertinggi</option>
+            </select>
+          </div>
+
+          <button id="reset-filter-btn" class="reset-button" type="button">Atur ulang</button>
+        </div>
+      </div>
+
+      <div class="category-strip">
+        <p class="category-strip-label">Kategori cepat</p>
+        <div id="main-category-list" class="main-category-list"></div>
+      </div>
+
+      <div id="status-message" class="status-message"></div>
+      <div id="product-container" class="product-container"></div>
+
+      <div class="load-more-area">
+        <button id="load-more-btn" type="button">Muat lebih banyak <span>↓</span></button>
+      </div>
+    </section>
+  </main>
+
+  <div id="cart-modal" class="cart-modal">
+    <div class="cart-panel">
+      <div class="cart-header">
+        <div>
+          <p class="eyebrow">KERANJANG</p>
+          <h2>Belanjaanmu</h2>
+        </div>
+
+        <button id="close-cart-btn" class="close-cart-btn" type="button">×</button>
+      </div>
+
+      <div id="cart-items" class="cart-items"></div>
+
+      <div class="cart-footer">
+        <div>
+          <span>Total belanja</span>
+          <strong id="cart-modal-total">$0.00</strong>
+        </div>
+
+        <button id="clear-cart-btn" class="clear-cart-btn" type="button">Kosongkan keranjang</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="product-modal" class="product-modal"></div>
+
+  <footer class="footer">
+    <div>
+      <p class="footer-brand">Kop<span>Des</span>.</p>
+      <p class="footer-description">Katalog mini</p>
+    </div>
+
+    <p class="footer-tech">Kelompok C01</p>
+  </footer>
+</body>
+</html>
