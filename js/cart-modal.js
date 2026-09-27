@@ -13,6 +13,7 @@ const savedCart = localStorage.getItem("cart");
 
 let cart = [];
 let selectedModalProduct = null;
+let modalQuantity = 1;
 
 if (savedCart) {
   cart = JSON.parse(savedCart);
@@ -27,6 +28,7 @@ function saveCart() {
 
   updateCartSummary();
   syncCatalogCartControls();
+  syncProductModalControl();
 }
 
 function updateCartSummary() {
@@ -105,6 +107,24 @@ function decreaseCartItem(productId) {
   saveCart();
 }
 
+function setCartQuantity(product, quantity) {
+  const existingItem = getCartItem(product.id);
+
+  if (existingItem) {
+    existingItem.quantity = quantity;
+  } else {
+    cart.push({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.thumbnail,
+      quantity: quantity
+    });
+  }
+
+  saveCart();
+}
+
 function syncCatalogCartControls() {
   const cards = document.querySelectorAll(".product-card");
 
@@ -117,6 +137,7 @@ function syncCatalogCartControls() {
     }
 
     const cartItem = getCartItem(product.id);
+
     cartArea.innerHTML = "";
 
     if (cartItem) {
@@ -218,6 +239,27 @@ function renderCart() {
 
 function openProductModal(product) {
   selectedModalProduct = product;
+
+  const cartItem = getCartItem(product.id);
+
+  if (cartItem) {
+    modalQuantity = cartItem.quantity;
+  } else {
+    modalQuantity = 1;
+  }
+
+  renderProductModal();
+  productDetailModal.classList.add("show");
+}
+
+function renderProductModal() {
+  if (!selectedModalProduct) {
+    return;
+  }
+
+  const product = selectedModalProduct;
+  const cartItem = getCartItem(product.id);
+
   productDetailModal.innerHTML = "";
 
   const modalCard = document.createElement("div");
@@ -282,22 +324,88 @@ function openProductModal(product) {
   description.classList.add("product-modal-description");
   description.textContent = product.description;
 
+  const quantitySection = document.createElement("div");
+  quantitySection.classList.add("modal-quantity-section");
+
+  const quantityHeading = document.createElement("p");
+  quantityHeading.classList.add("modal-quantity-heading");
+  quantityHeading.textContent = "Atur jumlah";
+
+  const quantityRow = document.createElement("div");
+  quantityRow.classList.add("modal-quantity-row");
+
+  const quantityControl = document.createElement("div");
+  quantityControl.classList.add("modal-quantity-control");
+
+  const decreaseBtn = document.createElement("button");
+  decreaseBtn.type = "button";
+  decreaseBtn.classList.add("modal-decrease");
+  decreaseBtn.textContent = "−";
+
+  const quantity = document.createElement("span");
+  quantity.classList.add("modal-quantity");
+  quantity.textContent = modalQuantity;
+
+  const increaseBtn = document.createElement("button");
+  increaseBtn.type = "button";
+  increaseBtn.classList.add("modal-increase");
+  increaseBtn.textContent = "+";
+
+  quantityControl.append(decreaseBtn, quantity, increaseBtn);
+
+  const stockInfo = document.createElement("p");
+  stockInfo.classList.add("modal-stock-info");
+  stockInfo.textContent = "Stok: " + product.stock;
+
+  quantityRow.append(quantityControl, stockInfo);
+
+  const subtotal = document.createElement("div");
+  subtotal.classList.add("modal-subtotal");
+
+  const subtotalLabel = document.createElement("span");
+  subtotalLabel.textContent = "Subtotal";
+
+  const subtotalValue = document.createElement("strong");
+  subtotalValue.textContent = "$" + (product.price * modalQuantity).toFixed(2);
+
+  subtotal.append(subtotalLabel, subtotalValue);
+
   const addButton = document.createElement("button");
   addButton.type = "button";
   addButton.classList.add("product-modal-add");
-  addButton.textContent = "Tambah ke keranjang";
 
-  content.append(modalTop, title, brand, productInfo, stock, description, addButton);
+  if (cartItem) {
+    addButton.textContent = "Perbarui keranjang";
+  } else {
+    addButton.textContent = "+ Keranjang";
+  }
+
+  quantitySection.append(quantityHeading, quantityRow, subtotal, addButton);
+
+  content.append(modalTop, title, brand, productInfo, stock, description, quantitySection);
   modalCard.append(imageArea, content);
   productDetailModal.append(modalCard);
+}
 
-  productDetailModal.classList.add("show");
+function syncProductModalControl() {
+  if (!selectedModalProduct) {
+    return;
+  }
+
+  const cartItem = getCartItem(selectedModalProduct.id);
+
+  if (cartItem) {
+    modalQuantity = cartItem.quantity;
+  }
+
+  renderProductModal();
 }
 
 function closeProductModal() {
   productDetailModal.classList.remove("show");
   productDetailModal.innerHTML = "";
   selectedModalProduct = null;
+  modalQuantity = 1;
 }
 
 cartProductContainer.addEventListener("click", (event) => {
@@ -378,6 +486,7 @@ clearCartBtn.addEventListener("click", () => {
   localStorage.removeItem("cart");
   updateCartSummary();
   syncCatalogCartControls();
+  syncProductModalControl();
   renderCart();
 });
 
@@ -390,9 +499,24 @@ productDetailModal.addEventListener("click", (event) => {
     closeProductModal();
   }
 
+  if (event.target.matches(".modal-increase")) {
+    if (modalQuantity < selectedModalProduct.stock) {
+      modalQuantity += 1;
+      renderProductModal();
+    }
+  }
+
+  if (event.target.matches(".modal-decrease")) {
+    if (modalQuantity > 1) {
+      modalQuantity -= 1;
+      renderProductModal();
+    }
+  }
+
   if (event.target.matches(".product-modal-add")) {
     if (selectedModalProduct) {
-      addToCart(selectedModalProduct);
+      setCartQuantity(selectedModalProduct, modalQuantity);
+      renderProductModal();
     }
   }
 });

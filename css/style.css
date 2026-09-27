@@ -104,6 +104,19 @@ button, input, select { font: inherit; }
 .catalog-quantity-control button { height: 38px; border: none; background-color: transparent; color: #111111; font-size: 18px; font-weight: bold; cursor: pointer; }
 .catalog-quantity-control button:hover { background-color: #111111; color: #ffffff; }
 .catalog-quantity { display: flex; align-items: center; justify-content: center; height: 38px; border-right: 1px solid #111111; border-left: 1px solid #111111; font-family: "Courier New", monospace; font-size: 13px; font-weight: bold; }
+.modal-quantity-section { margin-top: 6px; padding-top: 18px; border-top: 1px solid #cbc7bc; }
+.modal-quantity-heading { margin-bottom: 12px; font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: bold; }
+.modal-quantity-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+.modal-quantity-control { display: grid; grid-template-columns: 38px 54px 38px; align-items: center; overflow: hidden; border: 1px solid #aeb6c2; border-radius: 10px; background-color: #ffffff; }
+.modal-quantity-control button { height: 38px; border: none; background-color: transparent; color: #111111; font-size: 20px; cursor: pointer; }
+.modal-quantity-control button:hover { background-color: #d9f44d; }
+.modal-quantity { display: flex; align-items: center; justify-content: center; height: 38px; border-right: 1px solid #d7d7d7; border-left: 1px solid #d7d7d7; font-size: 15px; font-weight: bold; }
+.modal-stock-info { color: #4f4c47; font-size: 13px; }
+.modal-subtotal { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 16px; }
+.modal-subtotal span { color: #69665f; font-size: 13px; }
+.modal-subtotal strong { font-family: Georgia, "Times New Roman", serif; font-size: 23px; }
+.product-modal-add { width: 100%; padding: 12px; border: 1px solid #111111; border-radius: 10px; background-color: #d9f44d; color: #111111; font-weight: bold; cursor: pointer; }
+.product-modal-add:hover { background-color: #111111; color: #ffffff; }
 
 .load-more-area { display: flex; justify-content: center; margin-top: 36px; }
 #load-more-btn { display: flex; align-items: center; gap: 15px; padding: 11px 20px; border: 1px solid #ffffff; border-radius: 100px; background-color: transparent; color: #ffffff; font-family: "Courier New", monospace; cursor: pointer; }

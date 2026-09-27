@@ -271,6 +271,7 @@ function renderProducts() {
     addCartBtn.textContent = "Tambah ke keranjang";
 
     cartArea.append(addCartBtn);
+
     content.append(category, title, detailRow, cartArea);
     card.append(media, content);
     productContainer.append(card);
