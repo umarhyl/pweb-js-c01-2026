@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Mini Shopee</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="login.js" defer></script>
+  </head>
+  <body>
+    <main class="login-page">
+      <section class="login-card" aria-labelledby="login-title">
+        <h2 id="login-title">Masuk ke akunmu</h2>
+        <p class="subtitle">Gunakan username dan password akunmu.</p>
+
+        <form id="login-form">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" required>
+
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+          <p id="error-message" class="error" role="alert" aria-live="polite"></p>
+          <button id="login-button" type="submit">Masuk</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
