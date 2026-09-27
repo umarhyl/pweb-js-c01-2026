@@ -1,29 +1,36 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Mini Shopee</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="login.js" defer></script>
-  </head>
-  <body>
-    <main class="login-page">
-      <section class="login-card" aria-labelledby="login-title">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk | KopDes</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/login.js" defer></script>
+</head>
+<body class="login-body">
+  <main class="login-page">
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="login-header">
+        <p class="login-brand">Kop<span>Des</span>.</p>
         <h2 id="login-title">Masuk ke akunmu</h2>
         <p class="subtitle">Gunakan username dan password akunmu.</p>
+      </div>
 
-        <form id="login-form">
+      <form id="login-form">
+        <div class="input-group">
           <label for="username">Username</label>
-          <input id="username" name="username" type="text" autocomplete="username" required>
+          <input id="username" name="username" type="text" autocomplete="username" placeholder="contoh: emilys" required>
+        </div>
 
+        <div class="input-group">
           <label for="password">Password</label>
-          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        </div>
 
-          <p id="error-message" class="error" role="alert" aria-live="polite"></p>
-          <button id="login-button" type="submit">Masuk</button>
-        </form>
-      </section>
-    </main>
-  </body>
+        <p id="error-message" class="error-msg" role="alert" aria-live="polite"></p>
+        <button id="login-button" class="login-btn" type="submit">Masuk <span>→</span></button>
+      </form>
+    </section>
+  </main>
+</body>
 </html>
