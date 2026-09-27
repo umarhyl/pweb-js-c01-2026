@@ -15,6 +15,7 @@ if (!firstName) {
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
     localStorage.removeItem("firstName");
+    localStorage.removeItem("cart");
     window.location.href = "login.html";
   });
 }
