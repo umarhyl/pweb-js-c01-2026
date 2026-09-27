@@ -26,6 +26,7 @@ function saveCart() {
   }
 
   updateCartSummary();
+  syncCatalogCartControls();
 }
 
 function updateCartSummary() {
@@ -42,14 +43,20 @@ function updateCartSummary() {
   cartModalTotal.textContent = "$" + totalPrice.toFixed(2);
 }
 
-function addToCart(product) {
-  let existingItem = null;
+function getCartItem(productId) {
+  let selectedItem = null;
 
   cart.forEach((item) => {
-    if (item.id === product.id) {
-      existingItem = item;
+    if (item.id === productId) {
+      selectedItem = item;
     }
   });
+
+  return selectedItem;
+}
+
+function addToCart(product) {
+  const existingItem = getCartItem(product.id);
 
   if (existingItem) {
     existingItem.quantity += 1;
@@ -66,16 +73,83 @@ function addToCart(product) {
   saveCart();
 }
 
-function showAddFeedback(button) {
-  const originalText = button.textContent;
+function increaseCartItem(productId) {
+  cart.forEach((item) => {
+    if (item.id === productId) {
+      item.quantity += 1;
+    }
+  });
 
-  button.textContent = "Ditambahkan +1";
-  button.disabled = true;
+  saveCart();
+}
 
-  setTimeout(() => {
-    button.textContent = originalText;
-    button.disabled = false;
-  }, 700);
+function decreaseCartItem(productId) {
+  let removeProduct = false;
+
+  cart.forEach((item) => {
+    if (item.id === productId) {
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+      } else {
+        removeProduct = true;
+      }
+    }
+  });
+
+  if (removeProduct) {
+    cart = cart.filter((item) => {
+      return item.id !== productId;
+    });
+  }
+
+  saveCart();
+}
+
+function syncCatalogCartControls() {
+  const cards = document.querySelectorAll(".product-card");
+
+  cards.forEach((card) => {
+    const product = getProductByCardId(card.id);
+    const cartArea = card.querySelector(".catalog-cart-area");
+
+    if (!product || !cartArea) {
+      return;
+    }
+
+    const cartItem = getCartItem(product.id);
+    cartArea.innerHTML = "";
+
+    if (cartItem) {
+      const quantityControl = document.createElement("div");
+      quantityControl.classList.add("catalog-quantity-control");
+
+      const decreaseBtn = document.createElement("button");
+      decreaseBtn.type = "button";
+      decreaseBtn.classList.add("catalog-decrease");
+      decreaseBtn.value = product.id;
+      decreaseBtn.textContent = "−";
+
+      const quantity = document.createElement("span");
+      quantity.classList.add("catalog-quantity");
+      quantity.textContent = cartItem.quantity;
+
+      const increaseBtn = document.createElement("button");
+      increaseBtn.type = "button";
+      increaseBtn.classList.add("catalog-increase");
+      increaseBtn.value = product.id;
+      increaseBtn.textContent = "+";
+
+      quantityControl.append(decreaseBtn, quantity, increaseBtn);
+      cartArea.append(quantityControl);
+    } else {
+      const addButton = document.createElement("button");
+      addButton.type = "button";
+      addButton.classList.add("add-cart-btn");
+      addButton.textContent = "Tambah ke keranjang";
+
+      cartArea.append(addButton);
+    }
+  });
 }
 
 function renderCart() {
@@ -239,11 +313,18 @@ cartProductContainer.addEventListener("click", (event) => {
     return;
   }
 
-  const addButton = event.target.closest(".add-cart-btn");
-
-  if (addButton) {
+  if (event.target.matches(".add-cart-btn")) {
     addToCart(product);
-    showAddFeedback(addButton);
+    return;
+  }
+
+  if (event.target.matches(".catalog-increase")) {
+    increaseCartItem(product.id);
+    return;
+  }
+
+  if (event.target.matches(".catalog-decrease")) {
+    decreaseCartItem(product.id);
     return;
   }
 
@@ -269,26 +350,14 @@ cartItems.addEventListener("click", (event) => {
   if (event.target.matches(".cart-increase")) {
     const productId = Number(event.target.value);
 
-    cart.forEach((item) => {
-      if (item.id === productId) {
-        item.quantity += 1;
-      }
-    });
-
-    saveCart();
+    increaseCartItem(productId);
     renderCart();
   }
 
   if (event.target.matches(".cart-decrease")) {
     const productId = Number(event.target.value);
 
-    cart.forEach((item) => {
-      if (item.id === productId && item.quantity > 1) {
-        item.quantity -= 1;
-      }
-    });
-
-    saveCart();
+    decreaseCartItem(productId);
     renderCart();
   }
 
@@ -307,6 +376,8 @@ cartItems.addEventListener("click", (event) => {
 clearCartBtn.addEventListener("click", () => {
   cart = [];
   localStorage.removeItem("cart");
+  updateCartSummary();
+  syncCatalogCartControls();
   renderCart();
 });
 
@@ -322,9 +393,9 @@ productDetailModal.addEventListener("click", (event) => {
   if (event.target.matches(".product-modal-add")) {
     if (selectedModalProduct) {
       addToCart(selectedModalProduct);
-      showAddFeedback(event.target);
     }
   }
 });
 
 updateCartSummary();
+syncCatalogCartControls();

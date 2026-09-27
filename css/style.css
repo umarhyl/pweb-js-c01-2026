@@ -99,6 +99,12 @@ button, input, select { font: inherit; }
 .add-cart-btn:hover { background-color: #111111; color: #ffffff; }
 .add-cart-btn:disabled { background-color: #d9f44d; color: #111111; cursor: default; }
 
+.catalog-cart-area { width: 100%; margin-top: auto; }
+.catalog-quantity-control { display: grid; grid-template-columns: 42px 1fr 42px; align-items: center; width: 100%; min-height: 38px; overflow: hidden; border: 1px solid #111111; border-radius: 100px; background-color: #d9f44d; }
+.catalog-quantity-control button { height: 38px; border: none; background-color: transparent; color: #111111; font-size: 18px; font-weight: bold; cursor: pointer; }
+.catalog-quantity-control button:hover { background-color: #111111; color: #ffffff; }
+.catalog-quantity { display: flex; align-items: center; justify-content: center; height: 38px; border-right: 1px solid #111111; border-left: 1px solid #111111; font-family: "Courier New", monospace; font-size: 13px; font-weight: bold; }
+
 .load-more-area { display: flex; justify-content: center; margin-top: 36px; }
 #load-more-btn { display: flex; align-items: center; gap: 15px; padding: 11px 20px; border: 1px solid #ffffff; border-radius: 100px; background-color: transparent; color: #ffffff; font-family: "Courier New", monospace; cursor: pointer; }
 #load-more-btn:hover { background-color: #ffffff; color: #111111; }

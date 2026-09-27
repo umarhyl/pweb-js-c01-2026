@@ -262,12 +262,16 @@ function renderProducts() {
 
     detailRow.append(price, rating);
 
+    const cartArea = document.createElement("div");
+    cartArea.classList.add("catalog-cart-area");
+
     const addCartBtn = document.createElement("button");
     addCartBtn.type = "button";
     addCartBtn.classList.add("add-cart-btn");
     addCartBtn.textContent = "Tambah ke keranjang";
 
-    content.append(category, title, detailRow, addCartBtn);
+    cartArea.append(addCartBtn);
+    content.append(category, title, detailRow, cartArea);
     card.append(media, content);
     productContainer.append(card);
   });
@@ -278,6 +282,10 @@ function renderProducts() {
     loadMoreBtn.style.display = "none";
   } else {
     loadMoreBtn.style.display = "inline-flex";
+  }
+
+  if (typeof syncCatalogCartControls === "function") {
+    syncCatalogCartControls();
   }
 }
 
